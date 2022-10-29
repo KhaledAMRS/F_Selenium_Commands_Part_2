@@ -1,0 +1,139 @@
+1- Mouse hover
+
+Steps:
+	// Locate your element with any locater type id, name, linkText, className, cssValue, Xpath
+	WebElement ele = driver.findElement(By.id(""));		
+
+	//Creating object of an Actions class
+	Actions action = new Actions(driver);
+
+	//Performing the mouse hover action on the target element.
+	action.moveToElement(ele).perform();
+	
+	Example: 	navigate to this url "https://demo.nopcommerce.com/" and hover on "Computers"
+
+==============================================================================================================================================
+
+
+6- implicitly & explicitly
+
+implicitly:		only one condition is to wait for element to be exist in DOM page 
+explicitly:     multiple conditions like wait for element to be visibile on UI / wait for element To Be Clickable / wait for url to be / ......
+
+Examples:
+	go to http://the-internet.herokuapp.com/javascript_alerts	and try this code
+	
+	    driver.findElement(By.cssSelector("button[onclick=\"jsPrompt()\"]")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        // type in JS Prompt
+        wait.until(ExpectedConditions.alertIsPresent()).sendKeys("Test");
+        wait.until(ExpectedConditions.alertIsPresent()).accept();
+        // we could also use dismiss instead of accept
+        // wait.until(ExpectedConditions.alertIsPresent()).dismiss();
+        // assert this text is visible "You successfully clicked an alert"
+        Assert.assertTrue(driver.findElement(By.id("result")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.id("result")).getText().contains("You successfully clicked an alert"));
+        Assert.assertTrue(driver.findElement(By.id("result")).getCssValue("color").contains("rgba(0, 128, 0, 1)"));
+
+	
+Note: in this example you also learn how to deal with JavaScript Alerts 			// two birds with one stone :)
+
+
+
+another example
+        driver.navigate().to("http://the-internet.herokuapp.com/login");
+        driver.findElement(By.cssSelector("a[href=\"http://elementalselenium.com/\"]")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	
+
+==========================================================================================================================================
+
+7- 
+Multi_Windows_Handles
+
+Example: 
+        driver.navigate().to("http://the-internet.herokuapp.com/login");
+        driver.findElement(By.cssSelector("a[href=\"http://elementalselenium.com/\"]")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        ArrayList<String> Tabs = new ArrayList<>(driver.getWindowHandles());
+
+        //Now, we will switch between tabs and print CurrentUrl to make sure that driver is moving between tabs successfully
+        driver.switchTo().window(Tabs.get(1));
+        System.out.println(driver.getCurrentUrl());
+
+        driver.switchTo().window(Tabs.get(0));
+        System.out.println(driver.getCurrentUrl());
+
+        //Then we will close tab 1 and move driver to tab 0
+        driver.switchTo().window(Tabs.get(1)).close();
+        //Note: It's better to update your tab arraylist after each closing or opening new tab
+        Tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(Tabs.get(0));
+
+
+another complex example
+
+
+        ArrayList<String> Tabs = new ArrayList<>(driver.getWindowHandles());
+        
+        driver.switchTo().window(Tabs.get(1));
+        System.out.println(driver.getCurrentUrl());
+        driver.findElement(By.cssSelector("a[href=\"https://saucelabs.com/\"]")).click();
+
+        // as we mentioned in previous example we should update tabs list after each opening or closing new tab
+        Tabs = new ArrayList<>(driver.getWindowHandles());
+        
+        driver.switchTo().window(Tabs.get(0));
+        System.out.println(driver.getCurrentUrl());
+
+        driver.switchTo().window(Tabs.get(1));
+        System.out.println(driver.getCurrentUrl());
+
+        driver.switchTo().window(Tabs.get(2));
+        System.out.println(driver.getCurrentUrl());
+
+        //Then we will close tab 2 and move driver to tab 1
+        driver.switchTo().window(Tabs.get(2)).close();
+        Tabs = new ArrayList<>(driver.getWindowHandles());
+
+        //Then we will close tab 1 and move driver to tab 0
+        driver.switchTo().window(Tabs.get(1)).close();
+        Tabs = new ArrayList<>(driver.getWindowHandles());
+
+        //finally we will use driver.quit
+		driver.quit();
+
+/*		Note: if we use driver.quit() from the beginning (while 3 tabs are opening) >> all tabs will be closed and the whole WebDriver session will be terminated
+    	but for driver.close()	it only close the current tab and doesn't terminated the whole WebDriver session (you should close it from endTask Manager in this case)
+*/
+
+// Note: After learning Multi_Windows_Handles, it will become clear for you to differentiate between driver.quit() and driver.close()  which is one of the popular interview questions
+
+
+4- Difference between  driver.close() and  driver.quit()
+
+  driver.quit() >> all tabs will be closed and the whole WebDriver session will be terminated
+  
+  driver.close() >> it only closes the current tab and doesn't terminate the whole WebDriver session (you should close it from endTask Manager in this case)
+	
+	
+
+	Example: 
+	go to this website
+
+
+
+10- Drap and Drop
+
+
+11- JavaScript executer
+	11.1- Click
+	
+	11.2- Scroll
+	
+
+12- Download and upload		(Advanced)
+
